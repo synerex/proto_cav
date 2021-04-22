@@ -1,0 +1,77 @@
+syntax = "proto3";
+
+package proto.cav;
+
+option go_package = "github.com/synerex/proto_cav";
+
+import "google/protobuf/timestamp.proto";
+
+// destination request message
+message DestinationRequest{
+    int64 robotId = 1;
+    int64 seq = 2; //sequence number
+    float radius =3; //vehicle radius
+    Point origin = 4; //origin of coordinate axes
+    Point current = 5;
+    Point destination = 6;
+    Stamp stamp=7; 
+    google.protobuf.Timestamp ts = 8;
+}
+
+// path message
+message Path{
+    int64 robotId =1;
+    int64 seq = 2;
+    Point origin = 3;
+    repeated PathPoint path = 4; //path
+}
+
+// each point message in a path 
+message PathPoint{
+    int64 seq = 1;
+    Point point = 2;
+    Stamp stamp =3;
+}
+
+// map meta information message
+message MapMeta{
+    int64 seq=1;
+    Point origin = 3;
+    repeated Point objects = 2; //object list in tha map
+}
+
+// grid map message
+message GridMap{
+    int64 seq=1;
+    Point origin = 2;
+    float resolution = 3;
+    uint64 lx = 4; //xwidth
+    uint64 ly = 5; //ywidth
+    repeated Grid gridmap = 6;
+}
+
+// a single grid in the grid map message
+message Grid{
+    uint64 index = 1;
+    uint64 ix = 2; //index of x
+    uint64 iy = 3; // index of y
+}
+
+// space time information message
+message SpaceTime{
+    Stamp stamp = 1;
+    repeated Grid occupiedGrid = 2; 
+    google.protobuf.Timestamp ts = 8;
+}
+
+// 2 axes point message
+message Point{
+    float x = 1;
+    float y = 2;
+}
+
+// TimeStamp message 
+message Stamp{
+    uint64 secs =1; // unix time
+    uint64 nsecs=2; // unix nano time
+} 
