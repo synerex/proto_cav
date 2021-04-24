@@ -1,10 +1,30 @@
 syntax = "proto3";
 
-package proto.cav;
+package cav;
 
 option go_package = "github.com/synerex/proto_cav";
 
 import "google/protobuf/timestamp.proto";
+
+// ROS robot meta information message
+message ROSMeta{
+    int64 robotID =1;
+    string robotName = 2;
+    Point origin = 3;
+    string frameID = 4;
+    Stamp stamp = 5;
+    google.protobuf.Timestamp ts = 6;
+}
+
+message RobotInfo{
+    ROSMeta ros = 1;
+    float velocity = 2;
+    float rotVelocity = 3;
+    float radius = 4;
+    Stamp stamp = 5;
+    google.protobuf.Timestamp ts = 6;
+}
+
 
 // destination request message
 message DestinationRequest{
