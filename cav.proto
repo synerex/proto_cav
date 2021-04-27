@@ -23,6 +23,12 @@ message RobotInfo{
     google.protobuf.Timestamp ts = 6;
 }
 
+message Position{
+    ROSMeta ros = 1;
+    Point current = 2; //current position
+    google.protobuf.Timestamp ts = 3;
+}
+
 
 // destination request message
 message DestinationRequest{
@@ -30,8 +36,8 @@ message DestinationRequest{
     int64 seq = 2; //sequence number
     float radius =3; //vehicle radius
     Point origin = 4; //origin of coordinate axes
-    Point current = 5;
-    Point destination = 6; 
+    Point current = 5; //current position
+    Point destination = 6; //desitination position
     google.protobuf.Timestamp ts = 8;
 }
 
@@ -53,8 +59,11 @@ message PathPoint{
 // map meta information message
 message MapMeta{
     int64 seq=1;
-    Point origin = 3;
-    repeated Point objects = 2; //object list in tha map
+    Point origin = 2;
+    int64 height = 3;
+    int64 width = 4;
+    float resolusion = 5;
+    repeated Point objects = 6; //object list in tha map
 }
 
 // grid map message
@@ -62,8 +71,8 @@ message GridMap{
     int64 seq=1;
     Point origin = 2;
     float resolution = 3;
-    uint64 lx = 4; //xwidth
-    uint64 ly = 5; //ywidth
+    uint64 width = 4; //xwidth
+    uint64 height = 5; //ywidth
     repeated Grid gridmap = 6;
 }
 
@@ -72,13 +81,14 @@ message Grid{
     uint64 index = 1;
     uint64 ix = 2; //index of x
     uint64 iy = 3; // index of y
+    int64 occupancy = 4; //occupancy data
 }
 
 // space time information message
-message SpaceTime{
-    repeated Grid occupiedGrid = 2; 
-    google.protobuf.Timestamp ts = 8;
-}
+// message SpaceTime{
+//     repeated Grid occupiedGrid = 2; 
+//     google.protobuf.Timestamp ts = 8;
+// }
 
 // 2 axes point message
 message Point{
