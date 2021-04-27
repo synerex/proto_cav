@@ -12,7 +12,6 @@ message ROSMeta{
     string robotName = 2;
     Point origin = 3;
     string frameID = 4;
-    Stamp stamp = 5;
     google.protobuf.Timestamp ts = 6;
 }
 
@@ -21,7 +20,6 @@ message RobotInfo{
     float velocity = 2;
     float rotVelocity = 3;
     float radius = 4;
-    Stamp stamp = 5;
     google.protobuf.Timestamp ts = 6;
 }
 
@@ -33,8 +31,7 @@ message DestinationRequest{
     float radius =3; //vehicle radius
     Point origin = 4; //origin of coordinate axes
     Point current = 5;
-    Point destination = 6;
-    Stamp stamp=7; 
+    Point destination = 6; 
     google.protobuf.Timestamp ts = 8;
 }
 
@@ -50,7 +47,7 @@ message Path{
 message PathPoint{
     int64 seq = 1;
     Point point = 2;
-    Stamp stamp =3;
+    google.protobuf.Timestamp ts = 8;
 }
 
 // map meta information message
@@ -79,7 +76,6 @@ message Grid{
 
 // space time information message
 message SpaceTime{
-    Stamp stamp = 1;
     repeated Grid occupiedGrid = 2; 
     google.protobuf.Timestamp ts = 8;
 }
@@ -89,9 +85,3 @@ message Point{
     float x = 1;
     float y = 2;
 }
-
-// TimeStamp message 
-message Stamp{
-    uint64 secs =1; // unix time
-    uint64 nsecs=2; // unix nano time
-} 
