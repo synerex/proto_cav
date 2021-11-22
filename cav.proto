@@ -1,6 +1,6 @@
 syntax = "proto3";
 
-package cav;
+package proto_cav;
 
 option go_package = "github.com/synerex/proto_cav";
 
@@ -25,19 +25,20 @@ message RobotInfo{
 
 message Position{
     ROSMeta ros = 1;
-    Point current = 2; //current position
-    google.protobuf.Timestamp ts = 3;
+    Point position = 2; //position
+    Orientation orientation = 3;
+    google.protobuf.Timestamp ts = 4;
 }
 
 
 // destination request message
-message DestinationRequest{
+message PathRequest{
     int64 robotId = 1;
     int64 seq = 2; //sequence number
-    float radius =3; //vehicle radius
-    Point origin = 4; //origin of coordinate axes
-    Point current = 5; //current position
-    Point destination = 6; //desitination position
+    float radius = 3; //vehicle radius
+    Point start = 5; //current position
+    Point goal = 6; //desitination position
+    repeated Point objects = 7; //additional object (like other robots) 
     google.protobuf.Timestamp ts = 8;
 }
 
@@ -45,14 +46,14 @@ message DestinationRequest{
 message Path{
     int64 robotId =1;
     int64 seq = 2;
-    Point origin = 3;
-    repeated PathPoint path = 4; //path
+    repeated PathPoint path = 3; //path
 }
 
 // each point message in a path 
 message PathPoint{
     int64 seq = 1;
-    Point point = 2;
+    Point pose = 2;
+    Orientation orientation = 3;
     google.protobuf.Timestamp ts = 8;
 }
 
@@ -66,32 +67,16 @@ message MapMeta{
     repeated Point objects = 6; //object list in tha map
 }
 
-// grid map message
-message GridMap{
-    int64 seq=1;
-    Point origin = 2;
-    float resolution = 3;
-    uint64 width = 4; //xwidth
-    uint64 height = 5; //ywidth
-    repeated Grid gridmap = 6;
-}
-
-// a single grid in the grid map message
-message Grid{
-    uint64 index = 1;
-    uint64 ix = 2; //index of x
-    uint64 iy = 3; // index of y
-    int64 occupancy = 4; //occupancy data
-}
-
-// space time information message
-// message SpaceTime{
-//     repeated Grid occupiedGrid = 2; 
-//     google.protobuf.Timestamp ts = 8;
-// }
-
-// 2 axes point message
+// point message
 message Point{
     float x = 1;
     float y = 2;
+    float z = 3;
+}
+
+message Orientation{
+    float x = 1;
+    float y = 2;
+    float z = 3;
+    float w = 4;
 }
